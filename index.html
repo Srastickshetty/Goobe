@@ -473,6 +473,9 @@
       max-width: 98vw;
     }
   }
+
+  /* Remove Kannada music audio element */
+  audio#kannada-music { display: none !important; }
 </style>
 </head>
 <body>
@@ -594,10 +597,6 @@
   <source src="you-are-my-sonia.mp3" type="audio/mpeg" />
   Your browser does not support the audio element.
 </audio>
-<audio id="kannada-music" loop>
-  <source src="nee-parichaya-helade.mp3" type="audio/mpeg" />
-  Your browser does not support the audio element.
-</audio>
 
 <script>
   // New big cake animation logic
@@ -698,7 +697,6 @@
 
   // Audio control
   const mainMusic = document.getElementById('main-music');
-  const kannadaMusic = document.getElementById('kannada-music');
 
   // Photos that open the viewer: main photo and gallery photos
   const photos = document.querySelectorAll('#main-photo, #gallery img');
@@ -729,10 +727,6 @@
       }
       photoViewer.classList.add('active');
       // Pause main music and play Kannada music
-      if(!kannadaMusic.paused) return; // already playing
-      mainMusic.pause();
-      kannadaMusic.currentTime = 0;
-      kannadaMusic.play();
     });
   });
 
@@ -740,11 +734,7 @@
     photoViewer.classList.remove('active');
     photoViewerImg.src = '';
     photoCaption.textContent = '';
-    kannadaMusic.pause();
-    kannadaMusic.currentTime = 0;
-    // Resume main music
-    mainMusic.currentTime = 0;
-    mainMusic.play();
+    // Do NOT restart or play music here, just close the viewer
   });
 
   // Ensure main music plays on page load (some browsers block autoplay sometimes)
@@ -775,12 +765,9 @@
     document.getElementById('photo-viewer'),
   ];
   mainContent.forEach(el => { if(el) el.style.display = 'none'; });
-
-  // Pause music until surprise
   mainMusic.pause();
 
   surpriseBtn.addEventListener('click', () => {
-    // Hide cover, show content, play music
     surpriseCover.style.transition = 'opacity 0.7s cubic-bezier(.4,2,.6,1)';
     surpriseCover.style.opacity = 0;
     setTimeout(() => {
@@ -793,9 +780,7 @@
       }});
       mainMusic.currentTime = 0;
       mainMusic.play().catch(() => {});
-      // Trigger cake build if needed
       if(typeof animateBigCake === 'function') animateBigCake();
-      // Trigger scroll text animation
       checkScrollText();
     }, 700);
   });
@@ -804,28 +789,6 @@
   // --- Memories section music logic ---
   let kannadaTriggeredByScroll = false;
   let photoViewerOpen = false;
-
-  function handleMemoriesMusic() {
-    const memories = document.getElementById('memories');
-    const rect = memories.getBoundingClientRect();
-    const inView = rect.top < window.innerHeight * 0.7 && rect.bottom > window.innerHeight * 0.25;
-    if (inView && !photoViewerOpen && !kannadaTriggeredByScroll) {
-      kannadaTriggeredByScroll = true;
-      mainMusic.pause();
-      kannadaMusic.currentTime = 0;
-      kannadaMusic.play();
-    } else if ((!inView || photoViewerOpen) && kannadaTriggeredByScroll) {
-      kannadaTriggeredByScroll = false;
-      kannadaMusic.pause();
-      kannadaMusic.currentTime = 0;
-      if (!photoViewerOpen) {
-        mainMusic.currentTime = 0;
-        mainMusic.play();
-      }
-    }
-  }
-  window.addEventListener('scroll', handleMemoriesMusic);
-  window.addEventListener('resize', handleMemoriesMusic);
 
   // Update photo viewer open/close logic to coordinate music
   photos.forEach(photo => {
