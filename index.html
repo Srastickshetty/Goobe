@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Happy Birthday Goobe 🦉🎉</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+    /* Subtle pink overlay */
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(circle at 60% 20%, #ffe3ed55 0%, #fff0f300 70%),
+                radial-gradient(circle at 20% 80%, #ffd6e055 0%, #fff0f300 70%);
+  }
+  header {
+    padding: 2rem 1rem 1rem;
+    text-align: center;
+    background: #ffb3ba;
+    color: #a8002c;
+    box-shadow: 0 4px 24px #ffb3ba44;
+    border-bottom: 4px solid #ff4b6e;
+  }
+  header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    color: #d90429;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 12px #ffb3ba, 0 1px 0 #fff;
+  }
+  header p {
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-top: 0;
+    color: #a8002c;
+  }
+
+  /* --- Big Cake Animation --- */
+  #cake-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    min-height: 420px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    z-index: 2;
+    background: linear-gradient(180deg, #fff0f3 60%, #ffd6e0 100%);
+    border-radius: 32px 32px 40px 40px/40px 40px 60px 60px;
+    box-shadow: 0 8px 32px #ffb3ba55, 0 2px 8px #ff4b6e22;
+    padding-bottom: 32px;
+  }
+  #big-cake-svg {
+    width: 340px;
+    height: 420px;
+    /* Remove round shadow, more subtle */
+    filter: drop-shadow(0 8px 32px #ffb3ba55);
+  }
+
+  /* Animate each cake part in sequence */
+  @keyframes cakeFadeIn {
+    from { opacity: 0; transform: translateY(60px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes shimmer {
+    0% { opacity: 0.25; }
+    50% { opacity: 0.7; }
+    100% { opacity: 0.25; }
+  }
+
+  #cake-bottom-group, #cake-middle-group, #cake-top-group, #cake-shimmer, #cake-candle-group, #cake-flame {
+    opacity: 0;
+    transition: opacity 0.5s, filter 0.5s;
+  }
+
+  .cake-animate-bottom {
+    opacity: 1 !important;
+    animation: cakeFadeIn 0.7s cubic-bezier(.7,1.7,.5,1) forwards;
+  }
+  .cake-animate-middle {
+    opacity: 1 !important;
+    animation: cakeFadeIn 0.7s 0.4s cubic-bezier(.7,1.7,.5,1) forwards;
+  }
+  .cake-animate-top {
+    opacity: 1 !important;
+    animation: cakeFadeIn 0.7s 0.8s cubic-bezier(.7,1.7,.5,1) forwards;
+  }
+  .cake-animate-shimmer {
+    opacity: 1 !important;
+    animation: shimmer 2s infinite;
+  }
+  .cake-animate-candle {
+    opacity: 1 !important;
+    animation: cakeFadeIn 0.7s 1.2s cubic-bezier(.7,1.7,.5,1) forwards;
+  }
+  .cake-animate-flame {
+    opacity: 1 !important;
+    filter: drop-shadow(0 0 16px #fffbe6cc) drop-shadow(0 0 32px #ffd6d688);
+    animation: cakeFadeIn 0.7s 1.5s cubic-bezier(.7,1.7,.5,1) forwards;
+  }
+
+  /* Shimmer highlight animation */
+  #cake-shimmer.visible ellipse {
+    animation: shimmerMove 2.5s linear infinite;
+  }
+  @keyframes shimmerMove {
+    0% { opacity: 0.18; }
+    50% { opacity: 0.32; }
+    100% { opacity: 0.18; }
+  }
+
+  /* Scroll-triggered text */
+  #scroll-text {
+    max-width: 600px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+    text-align: left;
+    font-size: 1.1rem;
+    color: #6b4c7b;
+    background: rgba(255, 179, 186, 0.18);
+    border-radius: 18px;
+    box-shadow: 0 2px 18px #ffb3ba33;
+    border: 2px solid #ff4b6e33;
+  }
+  #scroll-text p {
+    opacity: 0;
+    margin-bottom: 1.3rem;
+    transition: opacity 1s cubic-bezier(.4,2,.6,1), transform 1s cubic-bezier(.4,2,.6,1), color 0.7s, text-shadow 0.7s;
+    transform: translateY(20px) scale(0.98) rotate(-2deg);
+    color: #d90429;
+    text-shadow: 0 2px 12px #ffb3ba, 0 1px 0 #fff;
+    filter: blur(2px);
+  }
+  #scroll-text p.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1.04) rotate(0deg);
+    color: #a8002c;
+    text-shadow: 0 4px 24px #ffb3ba, 0 1px 0 #fff, 0 0 8px #fff2;
+    filter: blur(0);
+    animation: popIn 0.9s cubic-bezier(.4,2,.6,1);
+  }
+  @keyframes popIn {
+    0% {
+      opacity: 0;
+      transform: translateY(30px) scale(0.95) rotate(-3deg);
+      filter: blur(4px);
+    }
+    60% {
+      opacity: 1;
+      transform: translateY(-8px) scale(1.07) rotate(2deg);
+      filter: blur(0.5px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1.04) rotate(0deg);
+      filter: blur(0);
+    }
+  }
+  #scroll-text p.emoji {
+    font-size: 2.1rem;
+    color: #ff4b6e;
+    text-shadow: 0 2px 12px #fff, 0 1px 0 #ffb3ba;
+    filter: none;
+    margin-bottom: 0.7rem;
+    animation: heartBeat 1.5s infinite;
+  }
+  @keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.18); }
+  }
+
+  /* Memories section */
+  #memories {
+    max-width: 720px;
+    margin: 4rem auto 5rem;
+    padding: 0 1rem;
+    text-align: center;
+    background: rgba(255, 179, 186, 0.13);
+    border-radius: 18px;
+    box-shadow: 0 2px 18px #ffb3ba33;
+    border: 2px solid #ff4b6e33;
+  }
+  #memories h2 {
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #d90429;
+    font-size: 2rem;
+    text-shadow: 0 2px 12px #ffb3ba, 0 1px 0 #fff;
+  }
+
+  #memories .main-pic {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  #memories .main-pic img {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 14px;
+    border: 4px solid #ff4b6e;
+    box-shadow: 0 8px 30px #ffb3ba88;
+    cursor: pointer;
+  }
+  #memories .main-pic p.caption {
+    margin-top: 0.5rem;
+    font-style: italic;
+    color: #d90429;
+    font-size: 1rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #memories .gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  #memories .gallery div {
+    width: 140px;
+    text-align: center;
+    background: #fff0f3;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px #ffb3ba33;
+    border: 2px solid #ffb3ba55;
+    padding: 8px 0 2px 0;
+  }
+  #memories .gallery img {
+    width: 100%;
+    border: 2px solid #ff4b6e;
+    box-shadow: 0 5px 18px #ffb3ba55;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  #memories .gallery img:hover {
+    transform: scale(1.1);
+  }
+  #memories .gallery p {
+    margin-top: 6px;
+    font-size: 1.1rem;
+    user-select: none;
+  }
+
+  /* Heart emoji for gallery pics */
+  .heart-emoji {
+    color: #d90429;
+    font-size: 1.5rem;
+    text-shadow: 0 2px 12px #ffb3ba, 0 1px 0 #fff;
+  }
+
+  /* Gallery overlay (for large image view) */
+  #photo-viewer {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255, 75, 110, 0.93);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+  }
+  #photo-viewer.active {
+    display: flex;
+  }
+  #photo-viewer img {
+    max-width: 90vw;
+    max-height: 80vh;
+    border-radius: 14px;
+    box-shadow: 0 0 30px #8249c4;
+  }
+  #photo-caption {
+    color: #fff0f3;
+    text-shadow: 0 2px 12px #ffb3ba, 0 1px 0 #fff;
+    margin-top: 1rem;
+    font-style: italic;
+    font-size: 1.1rem;
+    max-width: 90vw;
+    text-align: center;
+  }
+  #photo-close {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+    background: #d90429;
+    border: none;
+    color: #fff0f3;
+    font-size: 1.4rem;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 3px 8px #ffb3ba;
+    z-index: 11000;
+  }
+  #photo-close:hover {
+    background: #a8002c;
+  }
+
+  /* Surprise button overlay */
+  #surprise-cover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+    z-index: 20000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  #surprise-btn {
+    font-size: 2rem;
+    padding: 1.2em 2.5em;
+    border-radius: 2em;
+    background: #d90429;
+    color: #fff0f3;
+    box-shadow: 0 4px 18px #ffb3ba;
+    border: 2px solid #ffb3ba;
+    letter-spacing: 1px;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+  }
+  #surprise-btn:hover {
+    background: #ff4b6e;
+    color: #fff;
+    transform: scale(1.07);
+  }
+
+  /* --- Floating Hearts Animation --- */
+  .floating-heart {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 2.2rem;
+    color: #ff4b6e;
+    opacity: 0.85;
+    animation: floatHeart 5.5s linear forwards;
+    filter: drop-shadow(0 2px 8px #ffb3ba88);
+  }
+  @keyframes floatHeart {
+    0% {
+      transform: translateY(0) scale(1) rotate(-8deg);
+      opacity: 0.7;
+    }
+    60% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-120vh) scale(1.3) rotate(12deg);
+      opacity: 0;
+    }
+  }
+
+  /* Responsive for mobile */
+  @media (max-width: 500px) {
+    #big-cake-svg {
+      width: 98vw;
+      height: 70vw;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Happy Birthday Goobe 🦉🎉</h1>
+  <p>Prathinidhi Shetty 🤍🎀💌</p>
+</header>
+
+<!-- Surprise Button -->
+<div id="surprise-cover" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:linear-gradient(135deg,#ffdde1 0%,#ee9ca7 100%);z-index:20000;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+  <button id="surprise-btn" style="font-size:2rem;padding:1.2em 2.5em;border-radius:2em;background:#d90429;color:#fff0f3;box-shadow:0 4px 18px #ffb3ba;border:2px solid #ffb3ba;letter-spacing:1px;transition:background 0.2s,color 0.2s,transform 0.2s;">
+    Click here for a surprise! 🎁✨🥳💖
+  </button>
+</div>
+
+<!-- Cake Animation -->
+<div id="cake-container">
+    <svg id="big-cake-svg" width="340" height="420" viewBox="0 0 340 420" style="overflow:visible;">
+      <!-- Bottom Layer (rectangular, tall) -->
+      <g id="cake-bottom-group" style="opacity:0;">
+        <rect x="30" y="260" width="280" height="110" rx="38" fill="url(#bottomLayer)"/>
+        <ellipse cx="170" cy="370" rx="140" ry="32" fill="#ffd6e0" opacity="0.7"/>
+        <!-- Drips -->
+        <path d="M50,270 Q70,340 90,270 T130,270 Q150,340 170,270 T210,270 Q230,340 250,270 T290,270" fill="#ffb3ba" opacity="0.7"/>
+      </g>
+      <!-- Middle Layer (rectangular, shorter) -->
+      <g id="cake-middle-group" style="opacity:0;">
+        <rect x="60" y="180" width="220" height="90" rx="32" fill="url(#middleLayer)"/>
+        <ellipse cx="170" cy="270" rx="110" ry="24" fill="#fff0f3" opacity="0.8"/>
+        <!-- Drips -->
+        <path d="M80,190 Q100,240 120,190 T170,190 Q190,240 220,190 T260,190" fill="#fff0f3" opacity="0.8"/>
+      </g>
+      <!-- Top Layer (rectangular, smallest) -->
+      <g id="cake-top-group" style="opacity:0;">
+        <rect x="100" y="110" width="140" height="70" rx="24" fill="url(#topLayer)"/>
+        <ellipse cx="170" cy="180" rx="70" ry="16" fill="#ffdde1" opacity="0.9"/>
+        <!-- Drips -->
+        <path d="M120,120 Q140,150 160,120 T200,120 Q220,150 240,120 T260,120" fill="#ffdde1" opacity="0.9"/>
+      </g>
+      <!-- Frosting Shimmer -->
+      <g id="cake-shimmer" style="opacity:0;">
+        <ellipse cx="170" cy="120" rx="50" ry="8" fill="white" opacity="0.25">
+          <animate attributeName="opacity" values="0.25;0.7;0.25" dur="2s" repeatCount="indefinite"/>
+        </ellipse>
+      </g>
+      <!-- Candle -->
+      <g id="cake-candle-group" style="opacity:0;">
+        <rect x="158" y="50" width="24" height="60" rx="7" fill="url(#candleBody)"/>
+        <!-- Flame -->
+        <g id="cake-flame" style="opacity:0;">
+          <ellipse cx="170" cy="38" rx="12" ry="20" fill="url(#flameGrad)" filter="url(#flameBlur)">
+            <animate attributeName="opacity" values="1;0.7;1" dur="1.2s" repeatCount="indefinite"/>
+            <animate attributeName="ry" values="20;26;20" dur="1.2s" repeatCount="indefinite"/>
+          </ellipse>
+        </g>
+      </g>
+      <defs>
+        <linearGradient id="bottomLayer" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="#ff4b6e"/>
+          <stop offset="100%" stop-color="#ffb3ba"/>
+        </linearGradient>
+        <linearGradient id="middleLayer" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="#ffb3ba"/>
+          <stop offset="100%" stop-color="#fff0f3"/>
+        </linearGradient>
+        <linearGradient id="topLayer" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="#fff0f3"/>
+          <stop offset="100%" stop-color="#ffdde1"/>
+        </linearGradient>
+        <linearGradient id="candleBody" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="#fff0f3"/>
+          <stop offset="100%" stop-color="#ff4b6e"/>
+        </linearGradient>
+        <radialGradient id="flameGrad" cx="50%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#fffbe6"/>
+          <stop offset="60%" stop-color="#ffd6d6"/>
+          <stop offset="100%" stop-color="#ff4b6e"/>
+        </radialGradient>
+        <filter id="flameBlur">
+          <feGaussianBlur stdDeviation="2.5"/>
+        </filter>
+      </defs>
+    </svg>
+  </div>
+
+<!-- Scroll triggered text -->
+<div id="scroll-text">
+  <p>Another year older, wiser (hopefully?), and still full of that classic Goobe energy 😂</p>
+  <p>You're one of those people who can make things fun without even trying. Your vibes are always on another level — a little crazy, a little swaggy, and pure comedy.</p>
+  <p>Hope your day is full of cake, drama, and unlimited chill scenes. You totally deserve all the good stuff today (and a little extra attention 😏).</p>
+  <p>Stay crazy, stay awesome, and never lose that weird but cool Goobe spark!</p>
+  <p>— Your cute friend 😎💖</p>
+</div>
+
+<!-- Memories Section -->
+<section id="memories">
+  <h2>Memories</h2>
+
+  <div class="main-pic">
+    <img src="photos/1.jpeg" alt="The photo that started it all" id="main-photo" />
+    <p class="caption">This one right here? The pic that started it all — where the magic first showed up and our story kinda began.</p>
+  </div>
+
+  <div class="gallery" id="gallery">
+    <!-- Other photos will be inserted here by JS -->
+  </div>
+</section>
+
+<!-- Photo Viewer Overlay -->
+<div id="photo-viewer">
+  <button id="photo-close">Close</button>
+  <img src="" alt="Large photo" id="photo-viewer-img" />
+  <p id="photo-caption"></p>
+</div>
+
+<!-- Audio Elements -->
+<audio id="main-music" loop autoplay>
+  <source src="you-are-my-sonia.mp3" type="audio/mpeg" />
+  Your browser does not support the audio element.
+</audio>
+<audio id="kannada-music" loop>
+  <source src="nee-parichaya-helade.mp3" type="audio/mpeg" />
+  Your browser does not support the audio element.
+</audio>
+
+<script>
+  // New big cake animation logic
+  function animateBigCake() {
+    const bottom = document.getElementById('cake-bottom-group');
+    const middle = document.getElementById('cake-middle-group');
+    const top = document.getElementById('cake-top-group');
+    const shimmer = document.getElementById('cake-shimmer');
+    const candle = document.getElementById('cake-candle-group');
+    const flame = document.getElementById('cake-flame');
+    if (!bottom || !middle || !top || !shimmer || !candle || !flame) return;
+    // Animate in sequence
+    setTimeout(() => bottom.classList.add('cake-animate-bottom'), 100);
+    setTimeout(() => middle.classList.add('cake-animate-middle'), 600);
+    setTimeout(() => top.classList.add('cake-animate-top'), 1100);
+    setTimeout(() => shimmer.classList.add('cake-animate-shimmer'), 1500);
+    setTimeout(() => candle.classList.add('cake-animate-candle'), 1700);
+    setTimeout(() => flame.classList.add('cake-animate-flame'), 2000);
+  }
+  // Replace old cake build logic with new one
+  window.animateBigCake = animateBigCake;
+
+  // Scroll-triggered text animations
+  const scrollTexts = document.querySelectorAll('#scroll-text p');
+
+  // Add emoji lines for extra animation
+  const scrollTextDiv = document.getElementById('scroll-text');
+  const emojiLines = [
+    '🎂',
+    '💖',
+    '😎',
+    '😂',
+  ];
+  emojiLines.forEach((emoji, idx) => {
+    const p = document.createElement('p');
+    p.textContent = emoji;
+    p.classList.add('emoji');
+    scrollTextDiv.insertBefore(p, scrollTexts[idx * 2] || null);
+  });
+
+  function checkScrollText() {
+    const triggerBottom = window.innerHeight * 0.85;
+    document.querySelectorAll('#scroll-text p').forEach((p, i) => {
+      const rect = p.getBoundingClientRect();
+      if(rect.top < triggerBottom) {
+        setTimeout(() => p.classList.add('visible'), i * 120);
+      }
+    });
+  }
+  window.addEventListener('scroll', checkScrollText);
+  window.addEventListener('load', checkScrollText);
+
+  // Memories gallery setup
+  const galleryDiv = document.getElementById('gallery');
+
+  const totalPhotos = 8; // number of photos total, excluding the main 1.jpg already displayed
+
+  // Only show photos 2 to 8, arranged cutely, with unique cute emojis
+  const galleryOrder = [4, 2, 6, 3, 7, 5, 8]; // Custom cute order
+  const galleryEmojis = ['🤍','🎀','🧸','🌷','🍭','🎀','🫶🏻','💌','💓'];
+  for(let idx = 0; idx < galleryOrder.length; idx++) {
+    const i = galleryOrder[idx];
+    const photoDiv = document.createElement('div');
+    const img = document.createElement('img');
+    img.src = `photos/${i}.jpeg`;
+    img.alt = `Birthday photo ${i}`;
+    img.dataset.caption = galleryEmojis[idx] || '💓';
+    photoDiv.appendChild(img);
+    const cap = document.createElement('p');
+    cap.className = 'heart-emoji';
+    cap.textContent = galleryEmojis[idx] || '💓';
+    photoDiv.appendChild(cap);
+    galleryDiv.appendChild(photoDiv);
+  }
+
+  // Photo viewer overlay logic
+  const photoViewer = document.getElementById('photo-viewer');
+  const photoViewerImg = document.getElementById('photo-viewer-img');
+  const photoCaption = document.getElementById('photo-caption');
+  const photoClose = document.getElementById('photo-close');
+
+  // Audio control
+  const mainMusic = document.getElementById('main-music');
+  const kannadaMusic = document.getElementById('kannada-music');
+
+  // Photos that open the viewer: main photo and gallery photos
+  const photos = document.querySelectorAll('#main-photo, #gallery img');
+
+  photos.forEach(photo => {
+    photo.style.cursor = 'pointer';
+    photo.addEventListener('click', () => {
+      photoViewerImg.src = photo.src;
+      // Caption: special for main photo, emoji for others
+      let blushText = '';
+      if(photo.id === 'main-photo') {
+        photoCaption.textContent = "This one right here? The pic that started it all — where the magic first showed up and our story kinda began.\n\nP.S. That smile? 100% brdy certified! ✨";
+      } else {
+        // Find emoji for this photo
+        const idx = galleryOrder.findIndex(num => `photos/${num}.jpeg` === photo.src.split(window.location.origin + '/')[1]);
+        // Cute blush texts for each photo
+        const blushLines = [
+          "How can someone be this cute and still call themselves a goobe? 😳🥺",
+          "That smile could literally start a festival! 🎉💖",
+          "Cuteness level: brdy overload! 🧸✨",
+          "If there was a prize for best smile, you'd win every year. 🏆😊",
+          "You make every photo look like a celebration! 🎂💓",
+          "Warning: Too much cuteness detected! 💘😅",
+          "Brdy's official queen of adorable smiles! 👑😚"
+        ];
+        blushText = blushLines[idx] || 'You make every moment brighter! ✨';
+        photoCaption.textContent = `${galleryEmojis[idx] || '💓'}  ${blushText}`;
+      }
+      photoViewer.classList.add('active');
+      // Pause main music and play Kannada music
+      if(!kannadaMusic.paused) return; // already playing
+      mainMusic.pause();
+      kannadaMusic.currentTime = 0;
+      kannadaMusic.play();
+    });
+  });
+
+  photoClose.addEventListener('click', () => {
+    photoViewer.classList.remove('active');
+    photoViewerImg.src = '';
+    photoCaption.textContent = '';
+    kannadaMusic.pause();
+    kannadaMusic.currentTime = 0;
+    // Resume main music
+    mainMusic.currentTime = 0;
+    mainMusic.play();
+  });
+
+  // Ensure main music plays on page load (some browsers block autoplay sometimes)
+  window.addEventListener('DOMContentLoaded', () => {
+    mainMusic.currentTime = 0;
+    mainMusic.play().catch(() => {
+      // If autoplay is blocked, play on first user interaction
+      const resumeMusic = () => {
+        mainMusic.currentTime = 0;
+        mainMusic.play().catch(()=>{});
+        window.removeEventListener('click', resumeMusic);
+        window.removeEventListener('keydown', resumeMusic);
+        window.removeEventListener('touchstart', resumeMusic);
+      };
+      window.addEventListener('click', resumeMusic);
+      window.addEventListener('keydown', resumeMusic);
+      window.addEventListener('touchstart', resumeMusic);
+    });
+  });
+
+  // Hide everything except the surprise button until clicked
+  const surpriseCover = document.getElementById('surprise-cover');
+  const surpriseBtn = document.getElementById('surprise-btn');
+  const mainContent = [
+    document.getElementById('cake-container'),
+    document.getElementById('scroll-text'),
+    document.getElementById('memories'),
+    document.getElementById('photo-viewer'),
+  ];
+  mainContent.forEach(el => { if(el) el.style.display = 'none'; });
+
+  // Pause music until surprise
+  mainMusic.pause();
+
+  surpriseBtn.addEventListener('click', () => {
+    // Hide cover, show content, play music
+    surpriseCover.style.transition = 'opacity 0.7s cubic-bezier(.4,2,.6,1)';
+    surpriseCover.style.opacity = 0;
+    setTimeout(() => {
+      surpriseCover.style.display = 'none';
+      mainContent.forEach(el => { if(el) {
+        el.style.opacity = 0;
+        el.style.display = '';
+        el.style.transition = 'opacity 1.1s cubic-bezier(.4,2,.6,1)';
+        setTimeout(() => el.style.opacity = 1, 60);
+      }});
+      mainMusic.currentTime = 0;
+      mainMusic.play().catch(() => {});
+      // Trigger cake build if needed
+      if(typeof animateBigCake === 'function') animateBigCake();
+      // Trigger scroll text animation
+      checkScrollText();
+    }, 700);
+  });
+  mainContent.forEach(el => { if(el) el.style.opacity = 0; });
+
+  // --- Memories section music logic ---
+  let kannadaTriggeredByScroll = false;
+  let photoViewerOpen = false;
+
+  function handleMemoriesMusic() {
+    const memories = document.getElementById('memories');
+    const rect = memories.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight * 0.7 && rect.bottom > window.innerHeight * 0.25;
+    if (inView && !photoViewerOpen && !kannadaTriggeredByScroll) {
+      kannadaTriggeredByScroll = true;
+      mainMusic.pause();
+      kannadaMusic.currentTime = 0;
+      kannadaMusic.play();
+    } else if ((!inView || photoViewerOpen) && kannadaTriggeredByScroll) {
+      kannadaTriggeredByScroll = false;
+      kannadaMusic.pause();
+      kannadaMusic.currentTime = 0;
+      if (!photoViewerOpen) {
+        mainMusic.currentTime = 0;
+        mainMusic.play();
+      }
+    }
+  }
+  window.addEventListener('scroll', handleMemoriesMusic);
+  window.addEventListener('resize', handleMemoriesMusic);
+
+  // Update photo viewer open/close logic to coordinate music
+  photos.forEach(photo => {
+    photo.addEventListener('click', () => {
+      photoViewerOpen = true;
+      // ...existing code...
+    });
+  });
+  photoClose.addEventListener('click', () => {
+    photoViewerOpen = false;
+    // ...existing code...
+    handleMemoriesMusic(); // re-check music after closing viewer
+  });
+
+  // --- Floating Hearts Animation JS ---
+  function spawnFloatingHeart() {
+  const heart = document.createElement('div');
+  heart.className = 'floating-heart';
+  heart.textContent = ['💖','❤️','💕','💓','💗','💞'][Math.floor(Math.random()*6)];
+  heart.style.left = Math.random() * 90 + 5 + 'vw';
+  heart.style.bottom = '-40px';
+  heart.style.fontSize = (2 + Math.random() * 1.5) + 'rem';
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}
+setInterval(spawnFloatingHeart, 1200);
+</script>
+
+</body>
+</html>
